@@ -43,7 +43,7 @@ public class Game {
 		do {
 			turn++;
 			boolean done = false;
-			board.showSolution();
+			//board.showSolution();
 			System.out.println("Turn " + turn);
 			System.out.println("This is the current board:");
 			board.showBoard();
@@ -68,6 +68,8 @@ public class Game {
 				finished = true;
 				System.out.println("You hit a mine at row: " + (row+1) + ", col: " + (col+1));
 				board.showBoard();
+				System.out.println("Here is the solution:");
+				board.showSolution();
 				System.out.println("Game Over");
 			} else {
 				spacesCleared += board.clearSpace(row, col);
