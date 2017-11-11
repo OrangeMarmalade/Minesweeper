@@ -13,11 +13,19 @@ public class Game {
 		
 		System.out.println("Welcome to minesweeper!");
 		while (!hasParams) {
-			
-			System.out.println("Please enter dimensions (height width mineNum):");
-			height = sc.nextInt();
-			width = sc.nextInt();
-			mineNum = sc.nextInt();
+			System.out.println("Please enter dimensions (Enter in order: height width mineNum):");
+			while (true) {
+				try {
+					
+					height = sc.nextInt();
+					width = sc.nextInt();
+					mineNum = sc.nextInt();
+					break;
+				} catch (Exception e) {
+					System.out.println("Invalid input, try again (Enter in order: height width mineNum)");
+					sc.next();
+				}
+			}
 			
 			if ((mineNum - 1) >= height * width) {
 				System.out.println("Please enter another dimension, your mines are more than the grid! (height width mineNum):");
@@ -41,24 +49,31 @@ public class Game {
 		
 		
 		do {
+			
 			turn++;
-			boolean done = false;
+			//boolean done = false;
 			//board.showSolution();
 			System.out.println("Turn " + turn);
 			System.out.println("This is the current board:");
 			board.showBoard();
 			while (true) {
-				
+				//sc.next();
 				try {
+					sc = new Scanner(System.in).useDelimiter("\\s");
 					System.out.println("Input the row and column number respectively:");
 					row = sc.nextInt() - 1;
 					col = sc.nextInt() - 1;
+					
+					if ((row < 0) || (row > board.getWidth()) || (col < 0) || (col > board.getHeight())) {
+						//sc.next();
+						continue;
+					}
 					break;
 				
 				} catch (Exception e) {
 					System.out.println("Input valid numbers (row column pair) please");
 					
-					sc.next(); // avoiding double println again
+					sc.next(); // avoiding repeats loop, clear out sc so it won't problem again
 					continue;
 				}
 			} 
@@ -81,11 +96,14 @@ public class Game {
 			}
 			if (finished) {
 				while (true) {
-
-					System.out.println("Do you want to play again? y/n");
+					
+					System.out.println("Do you want to play again? Enter y/n");
 					// using this to avoid double println ^
-					sc.nextLine();
+					// EDIT 2: nvm it works now by itself
+					//sc.next();
 					String response = sc.next();
+					
+					
 					if (response.equals("y")) {
 						board.shuffleBoard();
 						finished = false;
@@ -95,8 +113,6 @@ public class Game {
 					} else if (response.equals("n")) {
 						System.out.println("Goodbye!");
 						break;
-					} else {
-						continue;
 					}
 
 				}
